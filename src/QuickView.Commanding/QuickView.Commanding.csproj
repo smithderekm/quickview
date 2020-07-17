@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\QuickView.Domain\QuickView.Domain.csproj" />
+    <ProjectReference Include="..\QuickView.Repositories\QuickView.Repositories.csproj" />
+  </ItemGroup>
+
+</Project>

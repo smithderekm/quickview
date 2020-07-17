@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ArgSentry" Version="2.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Quickview.Commanding\QuickView.Commanding.csproj" />
+    <ProjectReference Include="..\Quickview.Domain\QuickView.Domain.csproj" />
+    <ProjectReference Include="..\Quickview.Querying\QuickView.Querying.csproj" />
+    <ProjectReference Include="..\Quickview.Repositories\QuickView.Repositories.csproj" />
+  </ItemGroup>
+
+</Project>

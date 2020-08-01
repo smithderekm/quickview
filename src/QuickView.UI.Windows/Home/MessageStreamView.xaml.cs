@@ -11,14 +11,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace QuickView.UI.Windows
+namespace QuickView.UI.Windows.Home
 {
     /// <summary>
-    /// Interaction logic for Settings.xaml
+    /// Interaction logic for MessageStreamView.xaml
     /// </summary>
-    public partial class Settings : Page
+    public partial class MessageStreamView : UserControl
     {
-        public Settings()
+        public MessageStreamView()
         {
             InitializeComponent();
         }

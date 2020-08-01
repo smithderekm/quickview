@@ -7,7 +7,7 @@
         public Guid Id { get; set; }
 
         public string Name { get; set; }
-        public string ProviderName { get; set; }
+        public string SourceName { get; set; }
 
         public string[] Subjects { get; set; }
     }

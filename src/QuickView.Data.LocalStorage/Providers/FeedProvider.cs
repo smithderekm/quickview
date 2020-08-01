@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.IO.IsolatedStorage;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -37,7 +36,7 @@
             var feeds = await this.store.GetAllAsync();
             return feeds == null 
                 ? new List<Feed>() 
-                : feeds.Select(f=>new Feed(f.Id, f.Name, f.ProviderName)).ToList();
+                : feeds.Select(f=>new Feed(f.Id, f.Name, f.SourceName)).ToList();
         }
 
         public Task<Feed> GetFeedAsync(Guid id)

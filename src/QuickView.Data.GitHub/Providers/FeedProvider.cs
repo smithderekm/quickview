@@ -60,7 +60,11 @@
 
         public async Task<IEnumerable<Message>> GetMessagesAsync(string subject)
         {
-            var events = await this.client.Activity.Events.GetAllForRepository(this.options.User, subject,
+            Prevent.NullOrWhiteSpaceString(subject, nameof(subject));
+
+            var events = await this.client.Activity.Events.GetAllForRepository(
+                this.options.User, 
+                subject,
                 new ApiOptions {PageSize = this.options.PageSize});
             
             this.logger.LogDebug($"{events.Count} items retrieved for {subject} repository");

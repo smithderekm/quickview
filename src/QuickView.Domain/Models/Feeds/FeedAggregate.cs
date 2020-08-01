@@ -8,19 +8,19 @@
 
     public class FeedAggregate
     {
-        private FeedAggregate(string name, Provider provider)
+        private FeedAggregate(string name, Source source)
         {
             this.FeedId = Guid.Empty;
             this.Name = name;
-            this.Provider = provider;
+            this.Source = source;
             this.Subjects = new List<Subject>();
         }
 
-        private FeedAggregate(Guid id, string name, Provider provider, IEnumerable<Subject> subjects)
+        private FeedAggregate(Guid id, string name, Source source, IEnumerable<Subject> subjects)
         {
             this.FeedId = id;
             this.Name = name;
-            this.Provider = provider;
+            this.Source = source;
             this.Subjects = subjects.ToList();
         }
 
@@ -28,24 +28,24 @@
 
         public string Name { get; private set; }
 
-        public Provider Provider { get; private set; }
+        public Source Source { get; private set; }
 
         public List<Subject> Subjects { get; private set; }
 
-        public static FeedAggregate CreateNew(string name, Provider provider)
+        public static FeedAggregate CreateNew(string name, Source source)
         {
             Prevent.NullOrWhiteSpaceString(name, nameof(name));
-            Prevent.NullObject(provider, nameof(provider));
-            return new FeedAggregate(name, provider);
+            Prevent.NullObject(source, nameof(source));
+            return new FeedAggregate(name, source);
         }
 
-        public static FeedAggregate Hydrate(Guid id, string name, Provider provider, IEnumerable<Subject> subjects)
+        public static FeedAggregate Hydrate(Guid id, string name, Source source, IEnumerable<Subject> subjects)
         {
             Prevent.EmptyGuid(id, nameof(id));
             Prevent.NullOrWhiteSpaceString(name, nameof(name));
-            Prevent.NullObject(provider, nameof(provider));
+            Prevent.NullObject(source, nameof(source));
 
-            return new FeedAggregate(id, name, provider, subjects);
+            return new FeedAggregate(id, name, source, subjects);
         }
 
         public void AddSubject(Subject subject)

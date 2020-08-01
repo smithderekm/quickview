@@ -19,6 +19,9 @@
     using QuickView.Repositories;
     using QuickView.Services;
     using QuickView.Services.Feeds;
+    using QuickView.UI.Windows.Feeds;
+    using QuickView.UI.Windows.Home;
+    using QuickView.UI.Windows.Options;
 
     /// <summary>
     /// Interaction logic for App.xaml
@@ -28,11 +31,15 @@
         private const string GitHubConfigSectionName = "GitHub";
         private readonly IHost host;
 
+        public static IServiceProvider ServiceProvider { get; private set; }
+
         public App()
         {
             this.host = Host.CreateDefaultBuilder()
                 .ConfigureServices((context, services) => { ConfigureServices(context.Configuration, services); })
                 .Build();
+
+            ServiceProvider = this.host.Services;
         }
 
         protected override async void OnStartup(StartupEventArgs e)
@@ -94,7 +101,13 @@
             //command handlers
             services.AddTransient<ICreateNewFeedCommandHandler, CreateNewFeedCommandHandler>();
 
-            //viewmodels
+            //view models
+            services.AddSingleton<SummaryViewModel>();
+            services.AddSingleton<MessageStreamViewModel>();
+            services.AddSingleton<FeedListViewModel>();
+            services.AddSingleton<AddEditFeedViewModel>();
+            services.AddSingleton<OptionsViewModel>();
+            services.AddSingleton<AboutViewModel>();
 
             //windows
             services.AddSingleton<MainWindow>();

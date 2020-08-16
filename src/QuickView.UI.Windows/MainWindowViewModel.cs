@@ -54,6 +54,7 @@
             this.feedListViewModel.EditFeedRequested += NavigateToEditFeed;
             this.addEditFeedViewModel.Done += NavigateToFeedList;
 
+            CurrentViewModel = this.summaryViewModel;
         }
         public RelayCommand<string> NavCommand { get; private set; }
         
@@ -73,8 +74,14 @@
                 case AboutCommand:
                     CurrentViewModel = this.aboutViewModel;
                     break;
+                case SummaryCommand:
+                    CurrentViewModel = this.summaryViewModel;
+                    break;
+                case MessageStreamCommand:
+                    CurrentViewModel = this.messageStreamViewModel;
+                    break;
                 default:
-                    CurrentViewModel = this.feedListViewModel;
+                    CurrentViewModel = this.summaryViewModel;
                     break;
             }
         }

@@ -5,11 +5,12 @@
 
     public class Feed
     {
-        public Feed(Guid id, string name, string sourceName)
+        public Feed(Guid id, string name, string sourceName, IEnumerable<Subject> subjects)
         {
             this.Id = Id;
             this.Name = name;
-            this.SourceName = SourceName;
+            this.SourceName = sourceName;
+            this.Subjects = subjects;
         }
 
         public Guid Id { get; set; }
@@ -20,6 +21,6 @@
 
         public string SourceIconUri { get; set; }
 
-        public IEnumerable<Message> Messages { get; set; }
+        public IEnumerable<Subject> Subjects { get; set; }
     }
 }

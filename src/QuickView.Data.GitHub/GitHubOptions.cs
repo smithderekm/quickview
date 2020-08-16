@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace QuickView.Data.GitHub
+﻿namespace QuickView.Data.GitHub
 {
-    using Microsoft.Extensions.Options;
-
-    public  class GitHubOptions
+    public class GitHubOptions 
     {
         public string User { get; set; }
 

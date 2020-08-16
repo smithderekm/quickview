@@ -1,6 +1,7 @@
 ﻿namespace QuickView.UI.Windows
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Reflection;
     using System.Windows;
@@ -12,6 +13,7 @@
 
     using QuickView.Commanding.Feeds.CreateNew;
     using QuickView.Data.GitHub;
+    using QuickView.Data.GitHub.Providers;
     using QuickView.Data.LocalStorage;
     using QuickView.Data.LocalStorage.Repositories;
     using QuickView.Data.LocalStorage.Stores;
@@ -19,6 +21,7 @@
     using QuickView.Repositories;
     using QuickView.Services;
     using QuickView.Services.Feeds;
+    using QuickView.Services.Messages;
     using QuickView.UI.Windows.Feeds;
     using QuickView.UI.Windows.Home;
     using QuickView.UI.Windows.Options;
@@ -64,7 +67,6 @@
 
         private void ConfigureServices(IConfiguration configuration, IServiceCollection services)
         {
-
             services.Configure<GitHubOptions>(options =>
             {
                 options.User = configuration.GetSection(GitHubConfigSectionName).GetValue<string>("Username");
@@ -88,12 +90,14 @@
 
             //service
             services.AddTransient<IFeedService, FeedService>();
-
+            services.AddTransient<IMessageService, MessageService>();
+            
             //settings repository
             services.AddTransient<IFeedRepository, FeedRepository>();
 
             //querying providers
             services.AddTransient<IFeedProvider, Data.LocalStorage.Providers.FeedProvider>();
+            services.AddTransient<IFeedMessagesProvider, FeedProvider>();
 
             //stores
             services.AddTransient<IFeedStore, WindowsStorageStore>();

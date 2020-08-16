@@ -7,9 +7,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <!--<conv:NegatableBooleanToVisibilityConverter x:Key="VisConverter" />
-        <conv:NegatableBooleanToVisibilityConverter x:Key="NegVisConverter"
-                                                    Negate="True" />-->
         <Style TargetType="TextBox">
             <Style.Triggers>
                 <Trigger Property="Validation.HasError"
@@ -75,14 +72,12 @@
         <Grid Grid.Row="1">
             <Button Content="Save"
                     Command="{Binding SaveCommand}"
-                    Visibility="{Binding EditMode, Converter={StaticResource VisConverter}}"
                     HorizontalAlignment="Left"
                     Margin="25,5,0,0"
                     VerticalAlignment="Top"
                     Width="75" />
             <Button Content="Add"
                     Command="{Binding SaveCommand}"
-                    Visibility="{Binding EditMode, Converter={StaticResource NegVisConverter}}"
                     HorizontalAlignment="Left"
                     Margin="25,5,0,0"
                     VerticalAlignment="Top"
@@ -94,6 +89,5 @@
                     VerticalAlignment="Top"
                     Width="75" />
         </Grid>
-
     </Grid>
 </UserControl>

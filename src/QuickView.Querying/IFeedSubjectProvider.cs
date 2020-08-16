@@ -6,10 +6,11 @@
 
     using QuickView.Querying.Dto;
 
-    public interface IFeedProvider
+    public interface IFeedSubjectProvider
     {
-        Task<IReadOnlyList<Feed>> GetFeedsAsync();
+        Task<IReadOnlyList<Subject>> GetSubjectsAsync(Guid feedId);
 
-        Task<Feed> GetFeedAsync(Guid id);
+        Task<Subject> GetSubjectAsync(string subject);
+
     }
 }

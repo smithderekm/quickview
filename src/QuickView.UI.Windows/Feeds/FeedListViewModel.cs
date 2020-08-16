@@ -12,8 +12,7 @@
 
     public class FeedListViewModel : BindableBase
     {
-        private IFeedService feedService;
-        private Feed selectedFeed;
+        private readonly IFeedService feedService;
         private ObservableCollection<Feed> feeds;
 
         public FeedListViewModel(IFeedService feedService)
@@ -60,12 +59,6 @@
         public event Action<Feed> EditFeedRequested = delegate { };
         public event Action<Feed> DeleteFeedRequested = delegate { };
         
-        public Feed SelectedFeed
-        {
-            get => this.selectedFeed;
-            set => this.selectedFeed = value;
-        }
-
         void OnAddFeed()
         {
             this.AddFeedRequested(new Feed());

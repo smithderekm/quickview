@@ -10,7 +10,6 @@
         xmlns:feeds="clr-namespace:QuickView.UI.Windows.Feeds"
         xmlns:home="clr-namespace:QuickView.UI.Windows.Home"
         xmlns:options="clr-namespace:QuickView.UI.Windows.Options"
-        xmlns:mah="http://metro.mahapps.com/winfx/xaml/shared"
         mc:Ignorable="d"
         Title="QuickView for Devs" Height="450" Width="800">
     <controls:MetroWindow.Resources>
@@ -168,8 +167,7 @@
         <!--  Content  -->
         <controls:HamburgerMenu.ContentTemplate>
             <DataTemplate>
-                <Grid x:Name="ContentGrid">
-                    
+                <Grid x:Name="ContentGrid" Margin="10 10 10 10">
                     <controls:TransitioningContentControl
                                                 Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:HamburgerMenu}, Path=DataContext.CurrentViewModel}"
                                                 RestartTransitionOnContentChange="True"
@@ -201,25 +199,4 @@
             </DataTemplate>
         </controls:HamburgerMenu.ContentTemplate>
     </controls:HamburgerMenu>
-    <!--<Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Grid x:Name="NavBar">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Button Content="Feeds"
-                    Command="{Binding NavCommand}"
-                    CommandParameter="customers"
-                    Grid.Column="0" />
-        </Grid>
-        <Grid x:Name="MainContent"
-              Grid.Row="1">
-            <ContentControl Content="{Binding CurrentViewModel}" />
-        </Grid>
-    </Grid>-->
 </controls:MetroWindow>

@@ -31,30 +31,20 @@
             this.store = store;
 
         }
-        public async Task<IEnumerable<Feed>> GetFeedsAsync()
+        public async Task<IReadOnlyList<Feed>> GetFeedsAsync()
         {
             var feeds = await this.store.GetAllAsync();
-            return feeds == null 
-                ? new List<Feed>() 
-                : feeds.Select(f=>new Feed(f.Id, f.Name, f.SourceName)).ToList();
+            return feeds == null
+                ? new List<Feed>()
+                : feeds.Select(f => new Feed(
+                    f.Id,
+                    f.Name,
+                    f.SourceName,
+                    f.Subjects.Select(s => new Subject(s)).ToList()))
+                    .ToList();
         }
 
         public Task<Feed> GetFeedAsync(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<Subject>> GetSubjectsAsync(Guid feedId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Subject> GetSubjectAsync(string subject)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<Message>> GetMessagesAsync(string subject)
         {
             throw new NotImplementedException();
         }

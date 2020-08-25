@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\QuickView.Domain\QuickView.Domain.csproj" />
     <ProjectReference Include="..\QuickView.Querying\QuickView.Querying.csproj" />
   </ItemGroup>
 

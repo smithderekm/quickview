@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -12,7 +13,9 @@
     using QuickView.Querying;
     using QuickView.Querying.Dto;
     using QuickView.Services.Feeds;
-    
+
+    using Subject = QuickView.Domain.Models.Feeds.Subject;
+
     public class FeedService : IFeedService
     {
         private readonly IFeedProvider feedProvider;
@@ -32,7 +35,7 @@
             return await this.feedProvider.GetFeedsAsync();
         }
 
-        public async Task UpdateFeedAsync(IFeedRequest request)
+        public Task UpdateFeedAsync(IFeedRequest request)
         {
             throw new System.NotImplementedException();
         }
@@ -48,7 +51,12 @@
 
             var typedRequest = request as AddFeedRequest;
 
-            var command = new CreateNewFeedCommand(typedRequest.Name, new Source(typedRequest.Source), typedRequest.Subjects);
+            var command = new CreateNewFeedCommand(
+                typedRequest.Name, 
+                new Source(typedRequest.Source), 
+                typedRequest.Subjects.Select(
+                    s => Domain.Models.Feeds.Subject.CreateNew(s.Key, s.Value))
+                    .ToList());
 
             await this.createNewFeedCommandHandler.HandleAsync(command, new CancellationToken()).ConfigureAwait(false);
         }

@@ -40,7 +40,7 @@
                     f.Id,
                     f.Name,
                     f.SourceName,
-                    f.Subjects.Select(s => new Subject(s)).ToList()))
+                    f.Subjects.Select(s => new Subject(s.Name, s.Owner)).ToList()))
                     .ToList();
         }
 

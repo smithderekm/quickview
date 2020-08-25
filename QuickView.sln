@@ -18,6 +18,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickView.Data.Jira", "src\Quickview.Data.Jira\QuickView.Data.Jira.csproj", "{3A61C4B7-81C0-4494-889D-3E4CBC67A247}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickView.UI.Windows", "src\Quickview.UI.Windows\QuickView.UI.Windows.csproj", "{B3FA61E2-3197-43C0-935F-C37D1C5CD315}"
+	ProjectSection(ProjectDependencies) = postProject
+		{28B5F15B-862A-4D90-85FC-3FBA0853346D} = {28B5F15B-862A-4D90-85FC-3FBA0853346D}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickView.Commanding", "src\Quickview.Commanding\QuickView.Commanding.csproj", "{0FA4ECFE-DA1C-416B-9205-01A9CC025CEB}"
 EndProject

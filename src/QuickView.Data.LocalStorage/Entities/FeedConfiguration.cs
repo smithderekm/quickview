@@ -1,6 +1,7 @@
 ﻿namespace QuickView.Data.LocalStorage.Entities
 {
     using System;
+    using System.Collections.Generic;
 
     public class FeedConfiguration
     {
@@ -9,6 +10,6 @@
         public string Name { get; set; }
         public string SourceName { get; set; }
 
-        public string[] Subjects { get; set; }
+        public List<Subject> Subjects { get; set; }
     }
 }

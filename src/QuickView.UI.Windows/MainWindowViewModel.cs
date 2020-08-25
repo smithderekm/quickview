@@ -54,7 +54,6 @@
             this.feedListViewModel.EditFeedRequested += NavigateToEditFeed;
             this.addEditFeedViewModel.Done += NavigateToFeedList;
 
-            CurrentViewModel = this.summaryViewModel;
         }
         public RelayCommand<string> NavCommand { get; private set; }
         

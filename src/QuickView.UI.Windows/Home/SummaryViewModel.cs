@@ -44,7 +44,7 @@
 
             this.Messages = new ObservableCollection<Message>(
                 (await this.messageService.GetMessagesAsync(feeds.ToList()))
-                    .Select(m => new Message(m.SourceName, m.Subject, m.Timestamp, m.Creator, m.Body))
+                    .Select(m => new Message(m.SourceName, m.Subject, m.Url, m.Timestamp, m.Creator, m.Body))
                     .ToList());
         }
 

@@ -58,67 +58,70 @@
         {
             Prevent.NullOrWhiteSpaceString(subject, nameof(subject));
 
-            return await this.GetMessagesInternalAsync(new List<string> { subject });
+            return await this.GetMessagesInternalAsync(new List<Subject> { new Subject(subject, "owner") });
         }
 
         public async Task<IReadOnlyList<Message>> GetMessagesAsync(Guid feedId, IList<Subject> subjects)
         {
             Prevent.NullObject(subjects, nameof(subjects));
 
-            return await this.GetMessagesInternalAsync(subjects.Select(s => s.Name).ToList());
+            return await this.GetMessagesInternalAsync(subjects.ToList());
         }
 
-        private async Task<IReadOnlyList<Message>> GetMessagesInternalAsync(IList<string> subjects)
+        private async Task<IReadOnlyList<Message>> GetMessagesInternalAsync(IList<Subject> subjects)
         {
             var results = new List<Message>();
 
             foreach (var subject in subjects)
             {
                 var events = await this.client.Activity.Events.GetAllForRepository(
-                    this.options.User,
-                    subject,
-                    new ApiOptions {PageSize = this.options.PageSize});
+                    subject.Owner,
+                    subject.Name,
+                    new ApiOptions
+                    {
+                        StartPage = 1,
+                        PageSize = this.options.PageSize,
+                        PageCount = 1
+                    });
 
                 this.logger.LogDebug($"{events.Count} items retrieved for {subject} repository");
 
                 results.AddRange(
-                    events.Select(e =>
+                    events.Where(e => e.Type != "CreateEvent").Select(e =>
                     {
-                        string messageSubject = string.Empty;
-                        string body = string.Empty;
-                        string url = string.Empty;
+                        var messageSubject = string.Empty;
+                        var body = string.Empty;
+                        var url = string.Empty;
 
                         var payload = e.Payload;
 
-                        if (payload is CommitCommentPayload commentPayload)
+                        switch (payload)
                         {
-                            messageSubject = $"Commit comment on {e.Repo.Name}";
-                            body = commentPayload.Comment.Body;
-                            url = commentPayload.Comment.Url;
-                        }
-                        else if (payload is PullRequestEventPayload eventPayload)
-                        {
-                            messageSubject = $"New pull request on {e.Repo.Name}";
-                            body = eventPayload.PullRequest.Body;
-                            url = eventPayload.PullRequest.Url;
-                        }
-                        else if (payload is PullRequestCommentPayload requestCommentPayload)
-                        {
-                            messageSubject = $"New comment pull request on {e.Repo.Name}";
-                            body = requestCommentPayload.Comment.Body;
-                            url = requestCommentPayload.Comment.Url;
-                        }
-                        else if (payload is PushEventPayload pushEventPayload)
-                        {
-                            messageSubject = $"{pushEventPayload.Commits.Count} new commits pushed to {e.Repo.Name}";
-                            body = this.FormatCommitList(pushEventPayload.Commits);
-                            url = pushEventPayload.Repository?.Url;
-                        }
-                        else if (payload is ReleaseEventPayload releaseEventPayload)
-                        {
-                            messageSubject = $"New release issued on {e.Repo.Name}";
-                            body = releaseEventPayload.Release.Name;
-                            url = releaseEventPayload.Release.Url;
+                            case CommitCommentPayload commentPayload:
+                                messageSubject = $"Commit comment on {e.Repo.Name}";
+                                body = commentPayload.Comment?.Body;
+                                url = commentPayload.Comment?.Url;
+                                break;
+                            case PullRequestEventPayload eventPayload:
+                                messageSubject = $"New pull request on {e.Repo.Name}";
+                                body = eventPayload.PullRequest?.Body;
+                                url = eventPayload.PullRequest?.Url;
+                                break;
+                            case PullRequestCommentPayload requestCommentPayload:
+                                messageSubject = $"New comment pull request on {e.Repo.Name}";
+                                body = requestCommentPayload.Comment?.Body;
+                                url = requestCommentPayload.Comment?.Url;
+                                break;
+                            case PushEventPayload pushEventPayload:
+                                messageSubject = $"{pushEventPayload.Commits?.Count} new commits pushed to {e.Repo.Name}";
+                                body = this.FormatCommitList(pushEventPayload.Commits);
+                                url = pushEventPayload.Commits?.FirstOrDefault()?.Url;
+                                break;
+                            case ReleaseEventPayload releaseEventPayload:
+                                messageSubject = $"New release issued on {e.Repo.Name}";
+                                body = releaseEventPayload.Release?.Name;
+                                url = releaseEventPayload.Release?.Url;
+                                break;
                         }
 
                         return new Message
@@ -132,20 +135,25 @@
                         };
                     }).ToList());
             }
-            return results;
+            return results.OrderByDescending(r => r.Timestamp).ToList().AsReadOnly();
         }
 
-            private string FormatCommitList(IReadOnlyList<Commit> commits)
+        private string FormatCommitList(IReadOnlyList<Commit> commits)
+        {
+            if (commits == null)
             {
-                var result = new StringBuilder();
-                foreach (var commit in commits)
-                {
-                    result.AppendLine(commit.Message);
-                    result.AppendLine($"{commit.Author.Name} - {commit.Ref}");
-                    result.AppendLine(string.Empty);
-                }
+                return string.Empty;
 
-                return result.ToString();
             }
+            var result = new StringBuilder();
+            foreach (var commit in commits)
+            {
+                result.AppendLine(commit.Message);
+                result.AppendLine($"{commit.Author.Name} - {commit.Ref}");
+                result.AppendLine(string.Empty);
+            }
+
+            return result.ToString();
         }
     }
+}

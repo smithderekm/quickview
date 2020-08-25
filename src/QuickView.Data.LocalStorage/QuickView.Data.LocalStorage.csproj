@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\QuickView.Domain\QuickView.Domain.csproj" />
     <ProjectReference Include="..\Quickview.Querying\QuickView.Querying.csproj" />
     <ProjectReference Include="..\QuickView.Repositories\QuickView.Repositories.csproj" />
   </ItemGroup>

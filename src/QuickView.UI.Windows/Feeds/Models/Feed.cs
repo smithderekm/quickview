@@ -11,6 +11,6 @@
 
         public string Source { get; set; }
 
-        public IEnumerable<string> Subjects { get; set; }
+        public Dictionary<string, string> Subjects { get; set; }
     }
 }

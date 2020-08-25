@@ -91,6 +91,27 @@
                     </controls:HamburgerMenuIconItem.Tag>
                 </controls:HamburgerMenuIconItem>
                 <controls:HamburgerMenuIconItem 
+                    x:Name="MessageStreamIconItem"
+                    Label="Message Stream" 
+                    Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:HamburgerMenu}, Path=DataContext.NavCommand}" 
+                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:HamburgerMenu}, Path=DataContext.MessageStreamCommandParameter}">
+                    <controls:HamburgerMenuIconItem.Icon>
+                        <iconPacks:PackIconFontAwesome Width="22"
+                                                       Height="22"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Kind="HeartbeatSolid" />
+                    </controls:HamburgerMenuIconItem.Icon>
+                    <controls:HamburgerMenuIconItem.Tag>
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="28"
+                                   FontWeight="Bold">
+                            Home
+                        </TextBlock>
+                    </controls:HamburgerMenuIconItem.Tag>
+                </controls:HamburgerMenuIconItem>
+                <controls:HamburgerMenuIconItem 
                     x:Name="FeedsIconItem"
                     Label="Feeds" 
                     Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:HamburgerMenu}, Path=DataContext.NavCommand}" 

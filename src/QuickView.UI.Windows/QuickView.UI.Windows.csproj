@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="appsettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MahApps.Metro" Version="2.1.1" />
+    <PackageReference Include="MahApps.Metro.IconPacks.FontAwesome" Version="4.4.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.6" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.6" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.1.6" />
+    <PackageReference Include="Microsoft.FeatureManagement.AspNetCore" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.19" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Quickview.Commanding\QuickView.Commanding.csproj" />
+    <ProjectReference Include="..\Quickview.Data.GitHub\QuickView.Data.GitHub.csproj" />
+    <ProjectReference Include="..\Quickview.Data.Jira\QuickView.Data.Jira.csproj" />
+    <ProjectReference Include="..\Quickview.Data.LocalStorage\QuickView.Data.LocalStorage.csproj" />
+    <ProjectReference Include="..\Quickview.Domain\QuickView.Domain.csproj" />
+    <ProjectReference Include="..\Quickview.Querying\QuickView.Querying.csproj" />
+    <ProjectReference Include="..\Quickview.Repositories\QuickView.Repositories.csproj" />
+    <ProjectReference Include="..\QuickView.Services\QuickView.Services.csproj" />
+  </ItemGroup>
+
+</Project>

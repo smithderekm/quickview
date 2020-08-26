@@ -25,14 +25,12 @@
                     Id=Guid.NewGuid(),
                     Name = "Github - FMS",
                     SourceName = Sources.GitHub(),
-                    Subjects = new List<Subject>{
-                        new Subject("smithderekm", "quickview"),
-                        new Subject("fmsystemsgroup", "occupeye-web"),
-                        new Subject("fmsystemsgroup", "occupeye-scheduler")
+                    Subjects = new List<Subject>
+                    {
                     }
                 }
             };
-            
+
             return await Task.FromResult(result);
 
             //if (this.localSettings.Containers.ContainsKey(FeedsContainer))

@@ -20,7 +20,7 @@
 
         public async Task<CreateNewFeedResult> HandleAsync(CreateNewFeedCommand command, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var feed = FeedAggregate.CreateNew(command.Name, command.Provider);
+            var feed = FeedAggregate.CreateNew(command.Name, command.Source);
 
             await this.repository.CreateAsync(feed, cancellationToken).ConfigureAwait(false);
 

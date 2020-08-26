@@ -10,9 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Quickview.Commanding\QuickView.Commanding.csproj" />
-    <ProjectReference Include="..\Quickview.Domain\QuickView.Domain.csproj" />
     <ProjectReference Include="..\Quickview.Querying\QuickView.Querying.csproj" />
-    <ProjectReference Include="..\Quickview.Repositories\QuickView.Repositories.csproj" />
   </ItemGroup>
 
 </Project>

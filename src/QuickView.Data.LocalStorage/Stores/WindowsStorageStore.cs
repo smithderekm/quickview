@@ -2,47 +2,60 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
+    using System.IO;
+    using System.Reflection;
+    using System.Runtime.InteropServices;
     using System.Threading.Tasks;
 
-    using Windows.Storage;
-
     using QuickView.Data.LocalStorage.Entities;
-    using QuickView.Querying.Dto;
+    using QuickView.Domain;
 
     public class WindowsStorageStore : IFeedStore
     {
         private const string FeedsContainer = "FeedsContainer";
         private const string FeedsKey = "Feeds";
 
-        private ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-        private StorageFolder localFolder = ApplicationData.Current.LocalFolder;
-
         public async Task<IEnumerable<FeedConfiguration>> GetAllAsync()
         {
-            if (this.localSettings.Containers.ContainsKey(FeedsContainer))
+
+            var result = new List<FeedConfiguration>
             {
-                var container = this.localSettings.Containers[FeedsContainer];
-                var feeds = (ApplicationDataCompositeValue) container.Values[FeedsKey];
-
-                if (feeds == null)
+                new FeedConfiguration
                 {
-                    return null;
+                    Id=Guid.NewGuid(),
+                    Name = "Github - FMS",
+                    SourceName = Sources.GitHub(),
+                    Subjects = new List<Subject>
+                    {
+                    }
                 }
+            };
 
-                var results = feeds.Select(f =>
-                {
+            return await Task.FromResult(result);
 
-                    var entity = f.Value as FeedConfiguration;
-                    entity.Id = new Guid(f.Key);
+            //if (this.localSettings.Containers.ContainsKey(FeedsContainer))
+            //{
+            //    var container = this.localSettings.Containers[FeedsContainer];
+            //    var feeds = (ApplicationDataCompositeValue) container.Values[FeedsKey];
 
-                    return entity;
-                }).ToList();
+            //    if (feeds == null)
+            //    {
+            //        return null;
+            //    }
 
-                return await Task.FromResult(results);
-            }
+            //    var results = feeds.Select(f =>
+            //    {
 
-            return null;
+            //        var entity = f.Value as FeedConfiguration;
+            //        entity.Id = new Guid(f.Key);
+
+            //        return entity;
+            //    }).ToList();
+
+            //    return await Task.FromResult(results);
+            //}
+
+            //return null;
         }
 
         public Task<FeedConfiguration> GetAsync(Guid id)
@@ -58,6 +71,68 @@
         public Task DeleteAsync(FeedConfiguration aggregate)
         {
             throw new NotImplementedException();
+        }
+
+        private static Guid AppGuid
+        {
+            get
+            {
+                var assembly = Assembly.GetEntryAssembly();
+                var attributes = (assembly.GetCustomAttributes(typeof(GuidAttribute), true));
+                return new Guid((attributes[0] as GuidAttribute).Value);
+            }
+        }
+
+        private static Guid AssemblyGuid
+        {
+            get
+            {
+                var assembly = Assembly.GetExecutingAssembly();
+                var attributes = (assembly.GetCustomAttributes(typeof(GuidAttribute), true));
+                return new Guid((attributes[0] as GuidAttribute).Value);
+            }
+        }
+
+        private static string UserDataFolder
+        {
+            get
+            {
+                var appGuid = AppGuid;
+                var folderBase = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                var dir = $@"{folderBase}\{appGuid.ToString("B").ToUpper()}\";
+                return CheckDirectoryAndCreateIfNotFound(dir);
+            }
+        }
+
+        private static string UserRoamingDataFolder
+        {
+            get
+            {
+                var appGuid = AppGuid;
+                var folderBase = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+                var dir = $@"{folderBase}\{appGuid.ToString("B").ToUpper()}\";
+                return CheckDirectoryAndCreateIfNotFound(dir);
+            }
+        }
+
+        private static string AllUsersDataFolder
+        {
+            get
+            {
+                var appGuid = AppGuid;
+                var folderBase = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+                var dir = $@"{folderBase}\{appGuid.ToString("B").ToUpper()}\";
+                return CheckDirectoryAndCreateIfNotFound(dir);
+            }
+        }
+        private static string CheckDirectoryAndCreateIfNotFound(string path)
+        {
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            return path;
         }
     }
 }

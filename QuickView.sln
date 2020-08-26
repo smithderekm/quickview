@@ -31,7 +31,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickView.UI.UWP.Tests.MSTe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickView.UI.UWP.Core", "src\QuickView.UI.UWP.Core\QuickView.UI.UWP.Core.csproj", "{20B8B81D-936F-410B-B896-EB153441BDAF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickView.Services", "src\QuickView.Services\QuickView.Services.csproj", "{3A514F6F-2DBC-4549-94AA-4B36BDA362D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickView.Services", "src\QuickView.Services\QuickView.Services.csproj", "{3A514F6F-2DBC-4549-94AA-4B36BDA362D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

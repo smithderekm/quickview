@@ -1,12 +1,223 @@
-﻿<Window x:Class="QuickView.UI.Windows.MainWindow"
+﻿<controls:MetroWindow
+        x:Class="QuickView.UI.Windows.MainWindow"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:QuickView.UI.Windows"
+        xmlns:feeds="clr-namespace:QuickView.UI.Windows.Feeds"
+        xmlns:home="clr-namespace:QuickView.UI.Windows.Home"
+        xmlns:options="clr-namespace:QuickView.UI.Windows.Options"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="QuickView for Devs" Height="450" Width="800">
+    <controls:MetroWindow.Resources>
+        <DataTemplate x:Key="HamburgerMenuItem" DataType="{x:Type controls:HamburgerMenuIconItem}">
+            <DockPanel Height="48" LastChildFill="True">
+                <ContentControl x:Name="IconPart"
+                                Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:HamburgerMenu}}, Path=CompactPaneLength}"
+                                Content="{Binding Icon}"
+                                DockPanel.Dock="Left"
+                                Focusable="False"
+                                IsTabStop="False" />
+                <TextBlock x:Name="TextPart"
+                           VerticalAlignment="Center"
+                           FontSize="16"
+                           Text="{Binding Label}" />
+            </DockPanel>
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:HamburgerMenu}}, Path=PanePlacement}" Value="Right">
+                    <Setter TargetName="IconPart" Property="DockPanel.Dock" Value="Right" />
+                    <Setter TargetName="TextPart" Property="Margin" Value="8 0 0 0" />
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
 
-    </Grid>
-</Window>
+        <!--  This is the template for the option menu item  -->
+        <DataTemplate x:Key="HamburgerOptionsMenuItem" DataType="{x:Type controls:HamburgerMenuIconItem}">
+            <DockPanel Height="48" LastChildFill="True">
+                <ContentControl x:Name="IconPart"
+                        Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:HamburgerMenu}}, Path=CompactPaneLength}"
+                        Content="{Binding Icon}"
+                        DockPanel.Dock="Left"
+                        Focusable="False"
+                        IsTabStop="False" />
+                <TextBlock x:Name="TextPart"
+                   VerticalAlignment="Center"
+                   FontSize="16"
+                   Text="{Binding Label}" />
+            </DockPanel>
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:HamburgerMenu}}, Path=PanePlacement}" Value="Right">
+                    <Setter TargetName="IconPart" Property="DockPanel.Dock" Value="Right" />
+                    <Setter TargetName="TextPart" Property="Margin" Value="8 0 0 0" />
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+    </controls:MetroWindow.Resources>
+
+    <controls:MetroWindow.DataContext>
+        <local:MainWindowViewModel/>
+    </controls:MetroWindow.DataContext>
+
+    <controls:HamburgerMenu x:Name="HamburgerMenuControl"
+                          DisplayMode="CompactOverlay"
+                          HamburgerWidth="48"
+                          ItemTemplate="{StaticResource HamburgerMenuItem}"
+                          OptionsItemTemplate="{StaticResource HamburgerOptionsMenuItem}">
+        <!--  Items  -->
+        <controls:HamburgerMenu.ItemsSource>
+            <controls:HamburgerMenuItemCollection>
+                <controls:HamburgerMenuIconItem 
+                    x:Name="HomeIconItem"
+                    Label="Home" 
+                    Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:HamburgerMenu}, Path=DataContext.NavCommand}" 
+                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:HamburgerMenu}, Path=DataContext.SummaryCommandParameter}">
+                    <controls:HamburgerMenuIconItem.Icon>
+                        <iconPacks:PackIconFontAwesome Width="22"
+                                                       Height="22"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Kind="HomeSolid" />
+                    </controls:HamburgerMenuIconItem.Icon>
+                    <controls:HamburgerMenuIconItem.Tag>
+                        <TextBlock HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontSize="28"
+                               FontWeight="Bold">
+                        Home
+                        </TextBlock>
+                    </controls:HamburgerMenuIconItem.Tag>
+                </controls:HamburgerMenuIconItem>
+                <controls:HamburgerMenuIconItem 
+                    x:Name="MessageStreamIconItem"
+                    Label="Message Stream" 
+                    Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:HamburgerMenu}, Path=DataContext.NavCommand}" 
+                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:HamburgerMenu}, Path=DataContext.MessageStreamCommandParameter}">
+                    <controls:HamburgerMenuIconItem.Icon>
+                        <iconPacks:PackIconFontAwesome Width="22"
+                                                       Height="22"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Kind="HeartbeatSolid" />
+                    </controls:HamburgerMenuIconItem.Icon>
+                    <controls:HamburgerMenuIconItem.Tag>
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="28"
+                                   FontWeight="Bold">
+                            Home
+                        </TextBlock>
+                    </controls:HamburgerMenuIconItem.Tag>
+                </controls:HamburgerMenuIconItem>
+                <controls:HamburgerMenuIconItem 
+                    x:Name="FeedsIconItem"
+                    Label="Feeds" 
+                    Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:HamburgerMenu}, Path=DataContext.NavCommand}" 
+                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:HamburgerMenu}, Path=DataContext.FeedsCommandParameter}">
+                    <controls:HamburgerMenuIconItem.Icon>
+                        <iconPacks:PackIconFontAwesome Width="22"
+                                                       Height="22"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Kind="TasksSolid" />
+                    </controls:HamburgerMenuIconItem.Icon>
+                    <controls:HamburgerMenuIconItem.Tag>
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="28"
+                                   FontWeight="Bold">
+                            Feeds
+                        </TextBlock>
+                    </controls:HamburgerMenuIconItem.Tag>
+                </controls:HamburgerMenuIconItem>
+            </controls:HamburgerMenuItemCollection>
+        </controls:HamburgerMenu.ItemsSource>
+
+        <!--  Options  -->
+        <controls:HamburgerMenu.OptionsItemsSource>
+            <controls:HamburgerMenuItemCollection>
+                <controls:HamburgerMenuIconItem
+                    x:Name="OptionsIconItem"
+                    Label="Settings"
+                    Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:HamburgerMenu}, Path=DataContext.NavCommand}" 
+                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:HamburgerMenu}, Path=DataContext.SettingsCommandParameter}">
+                    <controls:HamburgerMenuIconItem.Icon>
+                        <iconPacks:PackIconFontAwesome Width="22"
+                                                       Height="22"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Kind="CogSolid" />
+                    </controls:HamburgerMenuIconItem.Icon>
+                    <controls:HamburgerMenuIconItem.Tag>
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="28"
+                                   FontWeight="Bold">
+                            Settings
+                        </TextBlock>
+                    </controls:HamburgerMenuIconItem.Tag>
+                </controls:HamburgerMenuIconItem>
+
+                <controls:HamburgerMenuIconItem 
+                    x:Name="AboutIconItem"
+                    Label="About"
+                    Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:HamburgerMenu}, Path=DataContext.NavCommand}" 
+                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:HamburgerMenu}, Path=DataContext.AboutCommandParameter}">
+                    <controls:HamburgerMenuIconItem.Icon>
+                        <iconPacks:PackIconFontAwesome Width="22"
+                                        Height="22"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Kind="InfoCircleSolid" />
+                    </controls:HamburgerMenuIconItem.Icon>
+                    <controls:HamburgerMenuIconItem.Tag>
+                        <TextBlock HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="28"
+                       FontWeight="Bold">
+                About
+                        </TextBlock>
+                    </controls:HamburgerMenuIconItem.Tag>
+                </controls:HamburgerMenuIconItem>
+
+            </controls:HamburgerMenuItemCollection>
+        </controls:HamburgerMenu.OptionsItemsSource>
+
+        <!--  Content  -->
+        <controls:HamburgerMenu.ContentTemplate>
+            <DataTemplate>
+                <Grid x:Name="ContentGrid" Margin="10 10 10 10">
+                    <controls:TransitioningContentControl
+                                                Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:HamburgerMenu}, Path=DataContext.CurrentViewModel}"
+                                                RestartTransitionOnContentChange="True"
+                                                Transition="Default">
+
+                        <controls:TransitioningContentControl.Resources>
+                            <DataTemplate DataType="{x:Type home:AboutViewModel}">
+                                <home:AboutView/>
+                            </DataTemplate>
+                            <DataTemplate DataType="{x:Type home:MessageStreamViewModel}">
+                                <home:MessageStreamView/>
+                            </DataTemplate>
+                            <DataTemplate DataType="{x:Type home:SummaryViewModel}">
+                                <home:SummaryView/>
+                            </DataTemplate>
+                            <DataTemplate DataType="{x:Type feeds:FeedListViewModel}">
+                                <feeds:FeedsListView/>
+                            </DataTemplate>
+                            <DataTemplate DataType="{x:Type feeds:AddEditFeedViewModel}">
+                                <feeds:AddEditFeedView />
+                            </DataTemplate>
+                            <DataTemplate DataType="{x:Type options:OptionsViewModel}">
+                                <options:OptionsView/>
+                            </DataTemplate>
+                        </controls:TransitioningContentControl.Resources>
+
+                    </controls:TransitioningContentControl>
+                </Grid>
+            </DataTemplate>
+        </controls:HamburgerMenu.ContentTemplate>
+    </controls:HamburgerMenu>
+</controls:MetroWindow>

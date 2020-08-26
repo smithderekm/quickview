@@ -4,6 +4,7 @@
 
     public class Message
     {
+        public string SourceName { get; set; }
         public string Subject { get; set; }
         public DateTime Timestamp { get; set; }
         public string Creator { get; set; }

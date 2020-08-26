@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "QuickView.UI.Windows": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "Key": "Value"
+      }
+    }
+  }
+}

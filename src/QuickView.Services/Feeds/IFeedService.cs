@@ -8,5 +8,12 @@
     public interface IFeedService
     {
         Task<IEnumerable<Feed>> GetFeedsAsync();
+
+        Task UpdateFeedAsync(IFeedRequest request);
+
+        Task AddFeedAsync(IFeedRequest request);
+
+        Task DeleteFeedAsync(IFeedRequest request);
+
     }
 }

@@ -2,5 +2,6 @@
 {
     public interface ICreateNewFeedCommandHandler : ICommandHandler<CreateNewFeedCommand, CreateNewFeedResult>
     {
+
     }
 }

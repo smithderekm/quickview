@@ -37,10 +37,4 @@
     <ProjectReference Include="..\QuickView.Services\QuickView.Services.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="appsettings.development.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>

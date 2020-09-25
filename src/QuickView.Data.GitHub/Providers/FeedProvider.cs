@@ -21,7 +21,7 @@
 
     public class FeedProvider : IFeedMessagesProvider, IFeedSubjectProvider
     {
-        private readonly GitHubClient client;
+        private GitHubClient client;
         private readonly ILogger<FeedProvider> logger;
         private readonly GitHubOptions options;
 
@@ -32,11 +32,6 @@
 
             this.logger = logger;
             this.options = options.Value;
-
-            this.client = new GitHubClient(new ProductHeaderValue("QuickView"))
-            {
-                Credentials = new Credentials(this.options.Token)
-            };
         }
 
         public Task<IReadOnlyList<Subject>> GetSubjectsAsync(Guid feedId)
@@ -54,23 +49,42 @@
             return Sources.GitHub();
         }
 
-        public async Task<IReadOnlyList<Message>> GetMessagesAsync(Guid feedId, string subject)
+        public async Task<IReadOnlyList<Message>> GetMessagesAsync(Guid feedId, string subject, IFeedIdentity identity)
         {
             Prevent.NullOrWhiteSpaceString(subject, nameof(subject));
+            Prevent.NullObject(identity, nameof(identity));
+            var token = ((TokenIdentity) identity).Token;
 
-            return await this.GetMessagesInternalAsync(new List<Subject> { new Subject(subject, "owner") });
+            return await this.GetMessagesInternalAsync(new List<Subject> { new Subject(subject, "owner") }, token);
         }
 
-        public async Task<IReadOnlyList<Message>> GetMessagesAsync(Guid feedId, IList<Subject> subjects)
+        public async Task<IReadOnlyList<Message>> GetMessagesAsync(Guid feedId, IList<Subject> subjects, IFeedIdentity identity)
         {
             Prevent.NullObject(subjects, nameof(subjects));
+            Prevent.NullObject(identity, nameof(identity));
 
-            return await this.GetMessagesInternalAsync(subjects.ToList());
+            var token = ((TokenIdentity)identity).Token;
+
+            return await this.GetMessagesInternalAsync(subjects.ToList(), token);
         }
 
-        private async Task<IReadOnlyList<Message>> GetMessagesInternalAsync(IList<Subject> subjects)
+        private void Connect(string token)
+        {
+            Prevent.NullOrWhiteSpaceString(token, nameof(token));
+
+            if (this.client == null)
+            {
+                this.client = new GitHubClient(new ProductHeaderValue("QuickView"))
+                {
+                    Credentials = new Credentials(token)
+                };
+            }
+        }
+        private async Task<IReadOnlyList<Message>> GetMessagesInternalAsync(IList<Subject> subjects, string token)
         {
             var results = new List<Message>();
+
+            this.Connect(token);
 
             foreach (var subject in subjects)
             {

@@ -11,5 +11,7 @@
         public string SourceName { get; set; }
 
         public List<Subject> Subjects { get; set; }
+
+        public string Token { get; set; }
     }
 }

@@ -40,7 +40,8 @@
                     f.Id,
                     f.Name,
                     f.SourceName,
-                    f.Subjects.Select(s => new Subject(s.Name, s.Owner)).ToList()))
+                    f.Subjects.Select(s => new Subject(s.Name, s.Owner)).ToList(),
+                    new TokenIdentity(f.Token)))
                     .ToList();
         }
 

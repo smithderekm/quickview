@@ -47,7 +47,7 @@
                 }
 
                 //TODO make parallel
-                results.AddRange(await provider.GetMessagesAsync(feed.Id, feed.Subjects.ToList()));
+                results.AddRange(await provider.GetMessagesAsync(feed.Id, feed.Subjects.ToList(), feed.Identity));
             }
 
             return results.AsReadOnly();

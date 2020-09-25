@@ -10,8 +10,8 @@
     public interface IFeedMessagesProvider
     {
         string Source();
-        Task<IReadOnlyList<Message>> GetMessagesAsync(Guid feedId, string subject);
-        Task<IReadOnlyList<Message>> GetMessagesAsync(Guid feedId, IList<Subject> subjects);
+        Task<IReadOnlyList<Message>> GetMessagesAsync(Guid feedId, string subject, IFeedIdentity identity);
+        Task<IReadOnlyList<Message>> GetMessagesAsync(Guid feedId, IList<Subject> subjects, IFeedIdentity identity);
 
     }
 }
